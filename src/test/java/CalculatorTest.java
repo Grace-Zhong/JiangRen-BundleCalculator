@@ -47,6 +47,4 @@ public class CalculatorTest {
         TreeMap<String, TreeMap<String, BigDecimal>> res = calculator.calTotal(inputImg, inputFlac, inputVid);
         logger.info(calculator.printRes(inputImg, inputFlac, inputVid));
     }
-
-
 }

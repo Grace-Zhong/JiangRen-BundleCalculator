@@ -1,6 +1,7 @@
 import java.math.BigDecimal;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.logging.Logger;
 
 public class Media {
 
@@ -36,13 +37,16 @@ public class Media {
     // return the cheapest solution of a single type social media
     public TreeMap<String, BigDecimal> calSingleType(int inputNum) {
         final String total = "TOTAL";
+        BigDecimal totalCost;
         TreeMap<String, BigDecimal> res = new TreeMap<>();
+        final Logger logger = Logger.getLogger("Logging single media...");
 
         // if inputNum is smaller than the cheapest bundle
         int cheapestBundle = smallestBundle(this.getTable());
         if (inputNum <= cheapestBundle) {
             res.put(String.valueOf(cheapestBundle), new BigDecimal(1));
             res.put(total, this.getTable().get(cheapestBundle));
+            totalCost = this.getTable().get(cheapestBundle);
         }
         else {
             // find threshold
@@ -62,15 +66,18 @@ public class Media {
 
             // calculate the cheapest bundle
             res = calBasicCase(inputNum, this.getTable());
+            totalCost = res.get(total);
 
             // add back the redundant number of bundle
             if (cut != 0) {
                 res.put(String.valueOf(cutBundleBase), res.get(String.valueOf(cutBundleBase)).add(new BigDecimal(cut)));
-                BigDecimal tmpBigDec = (new BigDecimal(cut)).multiply(this.getTable().get(cutBundleBase));
-                res.put(total, res.get(total).add(tmpBigDec));
+                totalCost = res.get(total).add((new BigDecimal(cut)).multiply(this.getTable().get(cutBundleBase)));
+                res.put(total, totalCost);
             }
         }
 
+        String output = printResult(inputNum, this.table, this.name, res, totalCost);
+        logger.info(output);
         return res;
     }
 
@@ -154,5 +161,17 @@ public class Media {
         return res;
     }
 
+    private static String printResult(int inputNum, TreeMap<Integer, BigDecimal> table, String name,
+                                      TreeMap<String, BigDecimal> res, BigDecimal totalCost) {
+        final String total = "TOTAL";
+        String output = "\n";
+        output += inputNum + " " + name + " $" + totalCost.toString() + "\n";
+        for (Map.Entry<String, BigDecimal> entry:res.entrySet()) {
+            if (!entry.getKey().equals(total) && entry.getValue().compareTo(new BigDecimal(0)) != 0)
+            output += "  " + entry.getValue().toString() + " x " + entry.getKey() + " $"
+                    + table.get(Integer.valueOf(entry.getKey())).multiply(entry.getValue()) + "\n";
+        }
+        return output;
+    }
 
 }

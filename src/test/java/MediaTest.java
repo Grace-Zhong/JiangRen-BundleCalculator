@@ -17,6 +17,5 @@ public class MediaTest {
 
         Media media = new Media(imageCode, mediaTable);
         TreeMap<String, BigDecimal> res = media.calSingleType(50);
-        System.out.println(res);
     }
 }

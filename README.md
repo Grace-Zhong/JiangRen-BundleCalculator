@@ -38,7 +38,7 @@ A successfully passing test(s) that demonstrates the following output: (The form
 # Solution
 1. I construct two objects - Media and Calculator. <br>
 Media can represent each type of media, including the media name and a table which contains the bundle information. 
-   `calSingleType()` returns the table of result. <br>
+   `calSingleType()` returns the table of result and also log the result in console. <br>
 Calculator includes three types of media, a table of the bundle information of these media, and a table of result 
    after calculation.`calTotal()` returns the result after calculation. `printRes()` uses log to print the result.
 2. For a single media, I divide the required input amount into three cases.`Method: calSingleType()` <br>

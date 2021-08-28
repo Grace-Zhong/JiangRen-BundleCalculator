@@ -3,6 +3,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.logging.Logger;
 
 public class Calculator{
     private static HashMap<String, TreeMap<Integer, BigDecimal>> data = new HashMap<>();
@@ -74,6 +75,7 @@ public class Calculator{
     }
 
     public String printRes(int inImg, int inFlac, int inVid) {
+
         final String total = "TOTAL";
         String output = "";
         for (Map.Entry<String, TreeMap<String, BigDecimal>> entry:res.entrySet()) {
