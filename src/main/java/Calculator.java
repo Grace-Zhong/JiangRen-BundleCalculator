@@ -1,40 +1,66 @@
+import java.lang.module.ModuleDescriptor;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.TreeMap;
-import java.util.Map;
 
-public class Calculator {
+public class Calculator extends Media{
+    private static HashMap<String, TreeMap<Integer, BigDecimal>> data = new HashMap<>();
+    private Media img;
+    private Media audio;
+    private Media video;
 
-    public static void calTotal(int inputImgNum, int inputFlacNum, int inputVidNum, HashMap<String, TreeMap<Integer, BigDecimal>> table) {
-        System.out.println("------------------");
-        System.out.println("IMG");
-        TreeMap<Integer, BigDecimal> subTableImg = table.get("IMG");
-        CalculateSingleType cal1 = new CalculateSingleType();
-        TreeMap<String, BigDecimal> resImg = cal1.calSingleType(inputImgNum, subTableImg);
-        for (Map.Entry<String, BigDecimal> entry:resImg.entrySet()) {
-            System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
-        }
-        System.out.println("------------------");
-        System.out.println("------------------");
-        System.out.println("FLAC");
-        TreeMap<Integer, BigDecimal> subTableFlac = table.get("FLAC");
-        CalculateSingleType cal2 = new CalculateSingleType();
-        TreeMap<String, BigDecimal> resFlac = cal2.calSingleType(inputFlacNum, subTableFlac);
-        for (Map.Entry<String, BigDecimal> entry:resFlac.entrySet()) {
-            System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
-        }
-        System.out.println("------------------");
-        System.out.println("------------------");
-        System.out.println("VID");
-        TreeMap<Integer, BigDecimal> subTableVid = table.get("VID");
-        CalculateSingleType cal3 = new CalculateSingleType();
-        TreeMap<String, BigDecimal> resVid = cal3.calSingleType(inputVidNum, subTableVid);
-        for (Map.Entry<String, BigDecimal> entry:resVid.entrySet()) {
-            System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
-        }
-        System.out.println("------------------");
-
+    public static HashMap<String, TreeMap<Integer, BigDecimal>> getData() {
+        return data;
     }
 
+    public static void setData(HashMap<String, TreeMap<Integer, BigDecimal>> data) {
+        Calculator.data = data;
+    }
 
+    public Media getImg() {
+        return img;
+    }
+
+    public void setImg(Media img) {
+        this.img = img;
+    }
+
+    public Media getAudio() {
+        return audio;
+    }
+
+    public void setAudio(Media audio) {
+        this.audio = audio;
+    }
+
+    public Media getVideo() {
+        return video;
+    }
+
+    public void setVideo(Media video) {
+        this.video = video;
+    }
+
+    public Calculator(Media img, Media audio, Media video) {
+        this.img = img;
+        this.audio = audio;
+        this.video = video;
+        this.data.put(img.getMediaName(), img.getTable());
+        this.data.put(audio.getMediaName(), audio.getTable());
+        this.data.put(video.getMediaName(), video.getTable());
+    }
+
+    public void calTotal(int inputImgNum, int inputFlacNum, int inputVidNum) {
+        TreeMap<String, BigDecimal> imgRes = img.calSingleType(inputImgNum);
+        System.out.println("Image:");
+        System.out.println(imgRes);
+
+        TreeMap<String, BigDecimal> audioRes = audio.calSingleType(inputFlacNum);
+        System.out.println("Audio:");
+        System.out.println(audioRes);
+
+        TreeMap<String, BigDecimal> videoRes = video.calSingleType(inputVidNum);
+        System.out.println("Video:");
+        System.out.println(videoRes);
+    }
 }

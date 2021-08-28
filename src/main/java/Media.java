@@ -2,23 +2,51 @@ import java.math.BigDecimal;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class CalculateSingleType {
+public class Media implements MediaInterface {
     private static final String total = "TOTAL";
+    private String mediaName;
+    private TreeMap<Integer, BigDecimal> table;
+
+    public String getMediaName() {
+        return mediaName;
+    }
+
+    public void setMediaName(String mediaName) {
+        this.mediaName = mediaName;
+    }
+
+    public TreeMap<Integer, BigDecimal> getTable() {
+        return table;
+    }
+
+    public void setTable(TreeMap<Integer, BigDecimal> table) {
+        this.table = table;
+    }
+
+    public Media() {
+        this.mediaName = "";
+        this.table = null;
+    }
+
+    public Media(String mediaName, TreeMap<Integer, BigDecimal> table) {
+        this.mediaName = mediaName;
+        this.table = table;
+    }
 
     // return the cheapest solution of a single type social media
-    public TreeMap<String, BigDecimal> calSingleType(int inputNum, TreeMap<Integer, BigDecimal> subTable) {
+    public TreeMap<String, BigDecimal> calSingleType(int inputNum) {
         TreeMap<String, BigDecimal> res = new TreeMap<>();
 
         // if inputNum is smaller than the cheapest bundle
-        int cheapestBundle = smallestBundle(subTable);
+        int cheapestBundle = smallestBundle(this.getTable());
         if (inputNum <= cheapestBundle) {
             res.put(String.valueOf(cheapestBundle), new BigDecimal(1));
-            res.put(total, subTable.get(cheapestBundle));
+            res.put(total, this.getTable().get(cheapestBundle));
         }
         else {
             // find threshold
             int threshold = 0;              // threshold = sum of all keys
-            for (Integer key:subTable.keySet()) {
+            for (Integer key:this.getTable().keySet()) {
                 threshold = threshold + key;
             }
 
@@ -26,18 +54,18 @@ public class CalculateSingleType {
             int cutBundleBase = 0;         // record the redundant number of bundle
             int cut = 0;
             if (inputNum > threshold) {
-                cutBundleBase = smallestUnitBundle(subTable);       // the bundle name should be cut
+                cutBundleBase = smallestUnitBundle(this.getTable());       // the bundle name should be cut
                 cut = (int)Math.ceil((double)(inputNum - threshold)/cutBundleBase);    // the number of bundle should be cut
                 inputNum = inputNum - cutBundleBase * cut;
             }
 
             // calculate the cheapest bundle
-            res = calBasicCase(inputNum, subTable);
+            res = calBasicCase(inputNum, this.getTable());
 
             // add back the redundant number of bundle
             if (cut != 0) {
                 res.put(String.valueOf(cutBundleBase), res.get(String.valueOf(cutBundleBase)).add(new BigDecimal(cut)));
-                BigDecimal tmpBigDec = (new BigDecimal(cut)).multiply(subTable.get(cutBundleBase));
+                BigDecimal tmpBigDec = (new BigDecimal(cut)).multiply(this.getTable().get(cutBundleBase));
                 res.put(total, res.get(total).add(tmpBigDec));
             }
 
@@ -47,7 +75,7 @@ public class CalculateSingleType {
     }
 
     // calculate basic cases (input is not small and not large)
-    public static TreeMap<String, BigDecimal> calBasicCase(int remain, TreeMap<Integer, BigDecimal> currentTable) {
+    private static TreeMap<String, BigDecimal> calBasicCase(int remain, TreeMap<Integer, BigDecimal> currentTable) {
         TreeMap<String, BigDecimal> res = new TreeMap<>();
 
         // initialization: the number of all key (beside the last key) is 0
@@ -100,7 +128,7 @@ public class CalculateSingleType {
     }
 
     // Return the bundle number with the lowest bundle price
-    public static int smallestBundle(TreeMap<Integer, BigDecimal> subTable) {
+    private static int smallestBundle(TreeMap<Integer, BigDecimal> subTable) {
         int res = 0;
         BigDecimal minValue = subTable.firstEntry().getValue();
         for (Map.Entry<Integer, BigDecimal> entry:subTable.entrySet()) {
@@ -113,7 +141,7 @@ public class CalculateSingleType {
     }
 
     // Return the bundle number with the lowest unit price
-    public static int smallestUnitBundle(TreeMap<Integer, BigDecimal> subTable) {
+    private static int smallestUnitBundle(TreeMap<Integer, BigDecimal> subTable) {
         int res = 0;
         BigDecimal minValue =subTable.firstEntry().getValue().divide(new BigDecimal(subTable.firstKey()));
         for (Map.Entry<Integer, BigDecimal> entry:subTable.entrySet()) {
