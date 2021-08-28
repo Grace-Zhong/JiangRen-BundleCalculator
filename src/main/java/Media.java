@@ -2,17 +2,17 @@ import java.math.BigDecimal;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class Media implements MediaInterface {
-    private static final String total = "TOTAL";
-    private String mediaName;
+public class Media {
+
+    private String name;
     private TreeMap<Integer, BigDecimal> table;
 
     public String getMediaName() {
-        return mediaName;
+        return name;
     }
 
     public void setMediaName(String mediaName) {
-        this.mediaName = mediaName;
+        this.name = mediaName;
     }
 
     public TreeMap<Integer, BigDecimal> getTable() {
@@ -24,17 +24,18 @@ public class Media implements MediaInterface {
     }
 
     public Media() {
-        this.mediaName = "";
+        this.name = "";
         this.table = null;
     }
 
-    public Media(String mediaName, TreeMap<Integer, BigDecimal> table) {
-        this.mediaName = mediaName;
-        this.table = table;
+    public Media(String name, TreeMap<Integer, BigDecimal> table) {
+        setMediaName(name);
+        setTable(table);
     }
 
     // return the cheapest solution of a single type social media
     public TreeMap<String, BigDecimal> calSingleType(int inputNum) {
+        final String total = "TOTAL";
         TreeMap<String, BigDecimal> res = new TreeMap<>();
 
         // if inputNum is smaller than the cheapest bundle
@@ -76,6 +77,7 @@ public class Media implements MediaInterface {
 
     // calculate basic cases (input is not small and not large)
     private static TreeMap<String, BigDecimal> calBasicCase(int remain, TreeMap<Integer, BigDecimal> currentTable) {
+        final String total = "TOTAL";
         TreeMap<String, BigDecimal> res = new TreeMap<>();
 
         // initialization: the number of all key (beside the last key) is 0
