@@ -69,7 +69,6 @@ public class Media {
                 BigDecimal tmpBigDec = (new BigDecimal(cut)).multiply(this.getTable().get(cutBundleBase));
                 res.put(total, res.get(total).add(tmpBigDec));
             }
-
         }
 
         return res;

@@ -70,7 +70,6 @@ public class Calculator{
         TreeMap<String, BigDecimal> videoRes = getVideo().calSingleType(inputVidNum);
         res.put("VID", videoRes);
 
-//        String output = printRes(inputImgNum, inputFlacNum, inputVidNum);
         return res;
     }
 

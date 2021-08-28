@@ -36,8 +36,12 @@ A successfully passing test(s) that demonstrates the following output: (The form
 ```
 
 # Solution
-1. I separate input into different media type and calculate each of them individually.
-2. For a single media, I divide the required amount into three cases.`Method: calSingleType()` <br>
+1. I construct two objects - Media and Calculator. <br>
+Media can represent each type of media, including the media name and a table which contains the bundle information. 
+   `calSingleType()` returns the table of result. <br>
+Calculator includes three types of media, a table of the bundle information of these media, and a table of result 
+   after calculation.`calTotal()` returns the result after calculation. `printRes()` uses log to print the result.
+2. For a single media, I divide the required input amount into three cases.`Method: calSingleType()` <br>
    (1) If the input amount is smaller than the cheapest bundle. It simply returns a single bundle. <br>
    (2) If the input amount is larger than the sum of all bundles, which means the larger part is repeated. I record the number it has repeated and cut them, then passed the remained part to (3). After it finds the cheapest solution by (3), I add the repeated bundles back.<br>
    (3) For the rest cases, I use recursion to calculate the cheapest solution.`Method: calBasicCase()` I calculate all possible solutions
