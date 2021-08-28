@@ -1,10 +1,12 @@
 import java.lang.module.ModuleDescriptor;
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.TreeMap;
 
 public class Calculator{
     private static HashMap<String, TreeMap<Integer, BigDecimal>> data = new HashMap<>();
+    public static TreeMap<String, TreeMap<String, BigDecimal>> res = new TreeMap<>();
     private Media img;
     private Media audio;
     private Media video;
@@ -57,17 +59,38 @@ public class Calculator{
         this.data.put(video.getMediaName(), video.getTable());
     }
 
-    public void calTotal(int inputImgNum, int inputFlacNum, int inputVidNum) {
+    public TreeMap<String, TreeMap<String, BigDecimal>> calTotal(int inputImgNum, int inputFlacNum, int inputVidNum) {
+
         TreeMap<String, BigDecimal> imgRes = getImg().calSingleType(inputImgNum);
-        System.out.println("Image:");
-        System.out.println(imgRes);
+        res.put("IMG", imgRes);
 
         TreeMap<String, BigDecimal> audioRes = getAudio().calSingleType(inputFlacNum);
-        System.out.println("Audio:");
-        System.out.println(audioRes);
+        res.put("FLAC", audioRes);
 
         TreeMap<String, BigDecimal> videoRes = getVideo().calSingleType(inputVidNum);
-        System.out.println("Video:");
-        System.out.println(videoRes);
+        res.put("VID", videoRes);
+
+//        String output = printRes(inputImgNum, inputFlacNum, inputVidNum);
+        return res;
+    }
+
+    public String printRes(int inImg, int inFlac, int inVid) {
+        final String total = "TOTAL";
+        String output = "";
+        for (Map.Entry<String, TreeMap<String, BigDecimal>> entry:res.entrySet()) {
+            output += String.valueOf(inImg) + " " + entry.getKey()
+                    + " $" + res.get(entry.getKey()).get(total) + "\n";
+            for (Map.Entry<String, BigDecimal> innerEntry:res.get(entry.getKey()).entrySet()) {
+                if (!innerEntry.getKey().equals(res.get(entry.getKey()).lastKey())
+                        && innerEntry.getValue().compareTo(new BigDecimal(0)) != 0) {
+                    BigDecimal cost = innerEntry.getValue()
+                            .multiply(data.get(entry.getKey()).get(Integer.valueOf(innerEntry.getKey())));
+
+                    output += "  " + innerEntry.getValue() + " x " + innerEntry.getKey()
+                            + " $" + cost + "\n";
+                }
+            }
+        }
+        return output;
     }
 }
