@@ -1,40 +1,29 @@
+import lombok.*;
+import lombok.experimental.Accessors;
+import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
+
 import java.math.BigDecimal;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Logger;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@Accessors(chain = true, fluent = true)
 public class Media {
 
     private String name;
     private TreeMap<Integer, BigDecimal> table;
 
-    public String getMediaName() {
-        return name;
-    }
-
-    public void setMediaName(String mediaName) {
-        this.name = mediaName;
-    }
-
-    public TreeMap<Integer, BigDecimal> getTable() {
-        return table;
-    }
-
-    public void setTable(TreeMap<Integer, BigDecimal> table) {
-        this.table = table;
-    }
-
-    public Media() {
-        this.name = "";
-        this.table = null;
-    }
-
-    public Media(String name, TreeMap<Integer, BigDecimal> table) {
-        setMediaName(name);
-        setTable(table);
-    }
-
-    // return the cheapest solution of a single type social media
+    /***
+     * Calculate the cheapest solution of a single media (all possible cases)
+     * @param inputNum  the number of bundle users needed
+     * @return the cheapest solution of a single type social media
+     */
     public TreeMap<String, BigDecimal> calSingleType(int inputNum) {
         final String total = "TOTAL";
         BigDecimal totalCost;
@@ -42,16 +31,15 @@ public class Media {
         final Logger logger = Logger.getLogger("Logging single media...");
 
         // if inputNum is smaller than the cheapest bundle
-        int cheapestBundle = smallestBundle(this.getTable());
+        int cheapestBundle = smallestBundle(this.table);
         if (inputNum <= cheapestBundle) {
             res.put(String.valueOf(cheapestBundle), new BigDecimal(1));
-            res.put(total, this.getTable().get(cheapestBundle));
-            totalCost = this.getTable().get(cheapestBundle);
-        }
-        else {
+            res.put(total, this.table.get(cheapestBundle));
+            totalCost = this.table.get(cheapestBundle);
+        } else {
             // find threshold
             int threshold = 0;              // threshold = sum of all keys
-            for (Integer key:this.getTable().keySet()) {
+            for (Integer key : this.table.keySet()) {
                 threshold = threshold + key;
             }
 
@@ -59,19 +47,19 @@ public class Media {
             int cutBundleBase = 0;         // record the redundant number of bundle
             int cut = 0;
             if (inputNum > threshold) {
-                cutBundleBase = smallestUnitBundle(this.getTable());       // the bundle name should be cut
-                cut = (int)Math.ceil((double)(inputNum - threshold)/cutBundleBase);    // the number of bundle should be cut
+                cutBundleBase = smallestUnitBundle(this.table);       // the bundle name should be cut
+                cut = (int) Math.ceil((double) (inputNum - threshold) / cutBundleBase);    // the number of bundle should be cut
                 inputNum = inputNum - cutBundleBase * cut;
             }
 
             // calculate the cheapest bundle
-            res = calBasicCase(inputNum, this.getTable());
+            res = calBasicCase(inputNum, this.table);
             totalCost = res.get(total);
 
             // add back the redundant number of bundle
             if (cut != 0) {
                 res.put(String.valueOf(cutBundleBase), res.get(String.valueOf(cutBundleBase)).add(new BigDecimal(cut)));
-                totalCost = res.get(total).add((new BigDecimal(cut)).multiply(this.getTable().get(cutBundleBase)));
+                totalCost = res.get(total).add((new BigDecimal(cut)).multiply(this.table.get(cutBundleBase)));
                 res.put(total, totalCost);
             }
         }
@@ -81,27 +69,32 @@ public class Media {
         return res;
     }
 
-    // calculate basic cases (input is not small and not large)
+    /***
+     * Calculate the cheapest solution of a single media (basic cases only, input is not small and not large)
+     * @param remain
+     * @param currentTable
+     * @return
+     */
     private static TreeMap<String, BigDecimal> calBasicCase(int remain, TreeMap<Integer, BigDecimal> currentTable) {
         final String total = "TOTAL";
         TreeMap<String, BigDecimal> res = new TreeMap<>();
 
         // initialization: the number of all key (beside the last key) is 0
-        BigDecimal minCost = (new BigDecimal(Math.ceil((double)remain/currentTable.lastKey())))
+        BigDecimal minCost = (new BigDecimal(Math.ceil((double) remain / currentTable.lastKey())))
                 .multiply(currentTable.lastEntry().getValue());
-        for (Map.Entry<Integer, BigDecimal> entry:currentTable.entrySet()) {
+        for (Map.Entry<Integer, BigDecimal> entry : currentTable.entrySet()) {
             res.put(String.valueOf(entry.getKey()), new BigDecimal(0));
         }
-        res.put(String.valueOf(currentTable.lastKey()), new BigDecimal(Math.ceil((double)remain/currentTable.lastKey())));
+        res.put(String.valueOf(currentTable.lastKey()), new BigDecimal(Math.ceil((double) remain / currentTable.lastKey())));
         res.put(total, minCost);
 
         // find the cheapest solution
         // base case
         if (currentTable.size() == 2) {
             int firstKey = currentTable.firstKey();
-            int maxNumOfFirstKey = (int)Math.ceil((double)remain/firstKey);
+            int maxNumOfFirstKey = (int) Math.ceil((double) remain / firstKey);
             for (int i = 1; i <= maxNumOfFirstKey; i++) {
-                BigDecimal numOfLastKey = new BigDecimal(Math.ceil((double)(remain-currentTable.firstKey() * i)
+                BigDecimal numOfLastKey = new BigDecimal(Math.ceil((double) (remain - currentTable.firstKey() * i)
                         / currentTable.lastKey()));
                 BigDecimal currentSum = (new BigDecimal(i)).multiply(currentTable.firstEntry().getValue())
                         .add(numOfLastKey.multiply(currentTable.lastEntry().getValue()));
@@ -113,10 +106,9 @@ public class Media {
                     res.put(total, currentSum);
                 }
             }
-        }
-        else {
+        } else {
             int firstKey = currentTable.firstKey();
-            int maxNumOfFirstKey = (int)Math.ceil((double)remain/firstKey);
+            int maxNumOfFirstKey = (int) Math.ceil((double) remain / firstKey);
             for (int i = 0; i <= maxNumOfFirstKey; i++) {
                 TreeMap<Integer, BigDecimal> dynamicTable = new TreeMap<>();
                 dynamicTable.putAll(currentTable);
@@ -135,11 +127,15 @@ public class Media {
         return res;
     }
 
-    // Return the bundle number with the lowest bundle price
+    /***
+     * Find the bundle with the lowest bundle price for a media
+     * @param subTable
+     * @return the bundle number with the lowest bundle price
+     */
     private static int smallestBundle(TreeMap<Integer, BigDecimal> subTable) {
         int res = 0;
         BigDecimal minValue = subTable.firstEntry().getValue();
-        for (Map.Entry<Integer, BigDecimal> entry:subTable.entrySet()) {
+        for (Map.Entry<Integer, BigDecimal> entry : subTable.entrySet()) {
             if (entry.getValue().compareTo(minValue) == -1) {
                 minValue = entry.getValue();
                 res = entry.getKey();
@@ -148,11 +144,15 @@ public class Media {
         return res;
     }
 
-    // Return the bundle number with the lowest unit price
+    /***
+     * Find the bundle with the lowest unit price for a media
+     * @param subTable
+     * @return the bundle number with the lowest unit price
+     */
     private static int smallestUnitBundle(TreeMap<Integer, BigDecimal> subTable) {
         int res = 0;
-        BigDecimal minValue =subTable.firstEntry().getValue().divide(new BigDecimal(subTable.firstKey()));
-        for (Map.Entry<Integer, BigDecimal> entry:subTable.entrySet()) {
+        BigDecimal minValue = subTable.firstEntry().getValue().divide(new BigDecimal(subTable.firstKey()));
+        for (Map.Entry<Integer, BigDecimal> entry : subTable.entrySet()) {
             if ((entry.getValue().divide(new BigDecimal(entry.getKey()))).compareTo(minValue) == -1) {
                 minValue = entry.getValue();
                 res = entry.getKey();
@@ -161,15 +161,24 @@ public class Media {
         return res;
     }
 
+    /***
+     * Return the cheapest solution of this media by string
+     * @param inputNum the number of bundle users need for this media
+     * @param table  the data information of this media
+     * @param name  the name code of this media
+     * @param res  the cheapest solution of this media
+     * @param totalCost  the total cost of the cheapest solution
+     * @return the string should be print by logger
+     */
     private static String printResult(int inputNum, TreeMap<Integer, BigDecimal> table, String name,
                                       TreeMap<String, BigDecimal> res, BigDecimal totalCost) {
         final String total = "TOTAL";
         String output = "\n";
         output += inputNum + " " + name + " $" + totalCost.toString() + "\n";
-        for (Map.Entry<String, BigDecimal> entry:res.entrySet()) {
+        for (Map.Entry<String, BigDecimal> entry : res.entrySet()) {
             if (!entry.getKey().equals(total) && entry.getValue().compareTo(new BigDecimal(0)) != 0)
-            output += "  " + entry.getValue().toString() + " x " + entry.getKey() + " $"
-                    + table.get(Integer.valueOf(entry.getKey())).multiply(entry.getValue()) + "\n";
+                output += "  " + entry.getValue().toString() + " x " + entry.getKey() + " $"
+                        + table.get(Integer.valueOf(entry.getKey())).multiply(entry.getValue()) + "\n";
         }
         return output;
     }

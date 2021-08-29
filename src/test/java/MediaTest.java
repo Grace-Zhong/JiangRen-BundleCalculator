@@ -1,7 +1,6 @@
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.TreeMap;
 
 public class MediaTest {
@@ -12,8 +11,8 @@ public class MediaTest {
     @Test
     public void testCalSingleType() {
         TreeMap<Integer, BigDecimal> mediaTable = new TreeMap<>();
-        mediaTable.put(5,new BigDecimal(450));
-        mediaTable.put(10,new BigDecimal(800));
+        mediaTable.put(5, new BigDecimal(450));
+        mediaTable.put(10, new BigDecimal(800));
 
         Media media = new Media(imageCode, mediaTable);
         TreeMap<String, BigDecimal> res = media.calSingleType(50);

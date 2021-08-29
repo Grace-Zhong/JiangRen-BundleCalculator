@@ -1,78 +1,59 @@
-import java.lang.module.ModuleDescriptor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.Accessors;
+
 import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Logger;
 
-public class Calculator{
+@NoArgsConstructor
+@ToString
+@Accessors(chain = true, fluent = true)
+public class Calculator {
+
+    @Getter
+    @Setter
+    private Media img;
+    @Getter
+    @Setter
+    private Media audio;
+    @Getter
+    @Setter
+    private Media video;
+    @Getter
+    @Setter
     private static HashMap<String, TreeMap<Integer, BigDecimal>> data = new HashMap<>();
     public static TreeMap<String, TreeMap<String, BigDecimal>> res = new TreeMap<>();
-    private Media img;
-    private Media audio;
-    private Media video;
-
-    public static HashMap<String, TreeMap<Integer, BigDecimal>> getData() {
-        return data;
-    }
-
-    public static void setData(HashMap<String, TreeMap<Integer, BigDecimal>> data) {
-        Calculator.data = data;
-    }
-
-    public Media getImg() {
-        return img;
-    }
-
-    public void setImg(Media img) {
-        this.img = img;
-    }
-
-    public Media getAudio() {
-        return audio;
-    }
-
-    public void setAudio(Media audio) {
-        this.audio = audio;
-    }
-
-    public Media getVideo() {
-        return video;
-    }
-
-    public void setVideo(Media video) {
-        this.video = video;
-    }
-
-    public Calculator() {
-        this.img = null;
-        this.audio = null;
-        this.video = null;
-        this.data = null;
-    }
 
     public Calculator(Media img, Media audio, Media video) {
-        setImg(img);;
-        setAudio(audio);
-        setVideo(video);
-        this.data.put(img.getMediaName(), img.getTable());
-        this.data.put(audio.getMediaName(), audio.getTable());
-        this.data.put(video.getMediaName(), video.getTable());
+        img(img).audio(audio).video(video);
+        this.data.put(img.name(), img.table());
+        this.data.put(audio.name(), audio.table());
+        this.data.put(video.name(), video.table());
     }
 
+    /***
+     * Calculate the cheapest solution of number of bundle.
+     * @param inputImgNum number of image that users need
+     * @param inputFlacNum number of audio that users need
+     * @param inputVidNum number of video that users need
+     * @return A table of the cheapest solutions for three types of media respectively
+     */
     public TreeMap<String, TreeMap<String, BigDecimal>> calTotal(int inputImgNum, int inputFlacNum, int inputVidNum) {
 
         if (inputImgNum > 0 && inputFlacNum > 0 && inputVidNum > 0) {
-            TreeMap<String, BigDecimal> imgRes = getImg().calSingleType(inputImgNum);
+            TreeMap<String, BigDecimal> imgRes = img.calSingleType(inputImgNum);
             res.put("IMG", imgRes);
 
-            TreeMap<String, BigDecimal> audioRes = getAudio().calSingleType(inputFlacNum);
+            TreeMap<String, BigDecimal> audioRes = audio.calSingleType(inputFlacNum);
             res.put("FLAC", audioRes);
 
-            TreeMap<String, BigDecimal> videoRes = getVideo().calSingleType(inputVidNum);
+            TreeMap<String, BigDecimal> videoRes = video.calSingleType(inputVidNum);
             res.put("VID", videoRes);
-        }
-        else {
+        } else {
             final Logger logger = Logger.getLogger("Logging single media...");
             logger.info("Input should be positive integer!");
         }
@@ -80,24 +61,4 @@ public class Calculator{
         return res;
     }
 
-//    public String printRes(int inImg, int inFlac, int inVid) {
-//
-//        final String total = "TOTAL";
-//        String output = "";
-//        for (Map.Entry<String, TreeMap<String, BigDecimal>> entry:res.entrySet()) {
-//            output += String.valueOf(inImg) + " " + entry.getKey()
-//                    + " $" + res.get(entry.getKey()).get(total) + "\n";
-//            for (Map.Entry<String, BigDecimal> innerEntry:res.get(entry.getKey()).entrySet()) {
-//                if (!innerEntry.getKey().equals(res.get(entry.getKey()).lastKey())
-//                        && innerEntry.getValue().compareTo(new BigDecimal(0)) != 0) {
-//                    BigDecimal cost = innerEntry.getValue()
-//                            .multiply(data.get(entry.getKey()).get(Integer.valueOf(innerEntry.getKey())));
-//
-//                    output += "  " + innerEntry.getValue() + " x " + innerEntry.getKey()
-//                            + " $" + cost + "\n";
-//                }
-//            }
-//        }
-//        return output;
-//    }
 }
