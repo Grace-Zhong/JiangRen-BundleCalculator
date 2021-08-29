@@ -36,10 +36,10 @@ A successfully passing test(s) that demonstrates the following output: (The form
 ```
 
 # Solution
-1. I construct two objects - Media and ThreeTypeCalculator. <br>
-Media can represent each type of media, including the media name and a table which contains the bundle information. 
+1. I construct two objects - pers.grace.calculator.Media and pers.grace.calculator.ThreeTypeCalculator. <br>
+pers.grace.calculator.Media can represent each type of media, including the media name and a table which contains the bundle information. 
    `calSingleType()` returns the table of result and also log the result in console. <br>
-ThreeTypeCalculator includes three types of media, a table of the bundle information of these media, and a table of result 
+pers.grace.calculator.ThreeTypeCalculator includes three types of media, a table of the bundle information of these media, and a table of result 
    after calculation.`calTotal()` returns the result after calculation. `printRes()` uses log to print the result.
 2. For a single media, I divide the required input amount into three cases.`Method: calSingleType()` <br>
    (1) If the input amount is smaller than the cheapest bundle. It simply returns a single bundle. <br>

@@ -1,9 +1,16 @@
+package pers.grace.calculator;
+
+import pers.grace.calculator.Media;
+
 import java.math.BigDecimal;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class MediaCalculator {
+
     /***
      * Calculate the cheapest solution of a single media (all possible cases)
      * @param inputNum  the number of bundle users needed
@@ -67,6 +74,12 @@ public class MediaCalculator {
         // initialization: the number of all key (beside the last key) is 0
         BigDecimal minCost = (new BigDecimal(Math.ceil((double) remain / currentTable.lastKey())))
                 .multiply(currentTable.lastEntry().getValue());
+
+//        currentTable.entrySet().stream().map(str->{
+//            res.put(String.valueOf(str.getKey()), new BigDecimal(0));
+//            return 0;
+//            }).collect(Collectors.counting());
+
         for (Map.Entry<Integer, BigDecimal> entry : currentTable.entrySet()) {
             res.put(String.valueOf(entry.getKey()), new BigDecimal(0));
         }
@@ -113,7 +126,7 @@ public class MediaCalculator {
     }
 
     /***
-     * Find the bundle with the lowest bundle price for a media
+     * Find the bundle with the lowest bundle price
      * @param subTable
      * @return the bundle number with the lowest bundle price
      */
@@ -130,7 +143,7 @@ public class MediaCalculator {
     }
 
     /***
-     * Find the bundle with the lowest unit price for a media
+     * Find the bundle with the lowest unit price
      * @param subTable
      * @return the bundle number with the lowest unit price
      */

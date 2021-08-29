@@ -1,5 +1,9 @@
+package pers.grace.calculator;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import pers.grace.calculator.Media;
+import pers.grace.calculator.ThreeTypeCalculator;
 
 import java.math.BigDecimal;
 import java.util.TreeMap;

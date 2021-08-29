@@ -1,8 +1,12 @@
+package pers.grace.calculator;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import pers.grace.calculator.Media;
+import pers.grace.calculator.MediaCalculator;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
