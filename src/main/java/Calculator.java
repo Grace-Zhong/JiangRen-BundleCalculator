@@ -62,36 +62,42 @@ public class Calculator{
 
     public TreeMap<String, TreeMap<String, BigDecimal>> calTotal(int inputImgNum, int inputFlacNum, int inputVidNum) {
 
-        TreeMap<String, BigDecimal> imgRes = getImg().calSingleType(inputImgNum);
-        res.put("IMG", imgRes);
+        if (inputImgNum > 0 && inputFlacNum > 0 && inputVidNum > 0) {
+            TreeMap<String, BigDecimal> imgRes = getImg().calSingleType(inputImgNum);
+            res.put("IMG", imgRes);
 
-        TreeMap<String, BigDecimal> audioRes = getAudio().calSingleType(inputFlacNum);
-        res.put("FLAC", audioRes);
+            TreeMap<String, BigDecimal> audioRes = getAudio().calSingleType(inputFlacNum);
+            res.put("FLAC", audioRes);
 
-        TreeMap<String, BigDecimal> videoRes = getVideo().calSingleType(inputVidNum);
-        res.put("VID", videoRes);
+            TreeMap<String, BigDecimal> videoRes = getVideo().calSingleType(inputVidNum);
+            res.put("VID", videoRes);
+        }
+        else {
+            final Logger logger = Logger.getLogger("Logging single media...");
+            logger.info("Input should be positive integer!");
+        }
 
         return res;
     }
 
-    public String printRes(int inImg, int inFlac, int inVid) {
-
-        final String total = "TOTAL";
-        String output = "";
-        for (Map.Entry<String, TreeMap<String, BigDecimal>> entry:res.entrySet()) {
-            output += String.valueOf(inImg) + " " + entry.getKey()
-                    + " $" + res.get(entry.getKey()).get(total) + "\n";
-            for (Map.Entry<String, BigDecimal> innerEntry:res.get(entry.getKey()).entrySet()) {
-                if (!innerEntry.getKey().equals(res.get(entry.getKey()).lastKey())
-                        && innerEntry.getValue().compareTo(new BigDecimal(0)) != 0) {
-                    BigDecimal cost = innerEntry.getValue()
-                            .multiply(data.get(entry.getKey()).get(Integer.valueOf(innerEntry.getKey())));
-
-                    output += "  " + innerEntry.getValue() + " x " + innerEntry.getKey()
-                            + " $" + cost + "\n";
-                }
-            }
-        }
-        return output;
-    }
+//    public String printRes(int inImg, int inFlac, int inVid) {
+//
+//        final String total = "TOTAL";
+//        String output = "";
+//        for (Map.Entry<String, TreeMap<String, BigDecimal>> entry:res.entrySet()) {
+//            output += String.valueOf(inImg) + " " + entry.getKey()
+//                    + " $" + res.get(entry.getKey()).get(total) + "\n";
+//            for (Map.Entry<String, BigDecimal> innerEntry:res.get(entry.getKey()).entrySet()) {
+//                if (!innerEntry.getKey().equals(res.get(entry.getKey()).lastKey())
+//                        && innerEntry.getValue().compareTo(new BigDecimal(0)) != 0) {
+//                    BigDecimal cost = innerEntry.getValue()
+//                            .multiply(data.get(entry.getKey()).get(Integer.valueOf(innerEntry.getKey())));
+//
+//                    output += "  " + innerEntry.getValue() + " x " + innerEntry.getKey()
+//                            + " $" + cost + "\n";
+//                }
+//            }
+//        }
+//        return output;
+//    }
 }

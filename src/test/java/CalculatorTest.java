@@ -14,8 +14,6 @@ public class CalculatorTest {
     private static TreeMap<Integer, BigDecimal> audioTable = new TreeMap<>();
     private static TreeMap<Integer, BigDecimal> videoTable = new TreeMap<>();
 
-    static final Logger logger = Logger.getLogger("Test Logging...");
-
     @BeforeEach
     void init() {
         imageTable.clear();
@@ -40,11 +38,10 @@ public class CalculatorTest {
                 new Media(audioCode, audioTable),
                 new Media(videoCode, videoTable)
         );
-        int inputImg = 10;
+        int inputImg = -1;
         int inputFlac = 15;
         int inputVid = 13;
 
         TreeMap<String, TreeMap<String, BigDecimal>> res = calculator.calTotal(inputImg, inputFlac, inputVid);
-        logger.info(calculator.printRes(inputImg, inputFlac, inputVid));
     }
 }
