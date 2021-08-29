@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 @NoArgsConstructor
 @ToString
 @Accessors(chain = true, fluent = true)
-public class Calculator {
+public class ThreeTypeCalculator {
 
     @Getter
     @Setter
@@ -26,9 +26,8 @@ public class Calculator {
     @Getter
     @Setter
     private static HashMap<String, TreeMap<Integer, BigDecimal>> data = new HashMap<>();
-    public static TreeMap<String, TreeMap<String, BigDecimal>> res = new TreeMap<>();
 
-    public Calculator(Media img, Media audio, Media video) {
+    public ThreeTypeCalculator(Media img, Media audio, Media video) {
         img(img).audio(audio).video(video);
         this.data.put(img.name(), img.table());
         this.data.put(audio.name(), audio.table());
@@ -43,15 +42,19 @@ public class Calculator {
      * @return A table of the cheapest solutions for three types of media respectively
      */
     public TreeMap<String, TreeMap<String, BigDecimal>> calTotal(int inputImgNum, int inputFlacNum, int inputVidNum) {
+        TreeMap<String, TreeMap<String, BigDecimal>> res = new TreeMap<>();
 
         if (inputImgNum > 0 && inputFlacNum > 0 && inputVidNum > 0) {
-            TreeMap<String, BigDecimal> imgRes = img.calSingleType(inputImgNum);
+            MediaCalculator imgCalculator = new MediaCalculator();
+            TreeMap<String, BigDecimal> imgRes = imgCalculator.calSingleType(img, inputImgNum);
             res.put("IMG", imgRes);
 
-            TreeMap<String, BigDecimal> audioRes = audio.calSingleType(inputFlacNum);
+            MediaCalculator audioCalculator = new MediaCalculator();
+            TreeMap<String, BigDecimal> audioRes = audioCalculator.calSingleType(audio, inputFlacNum);
             res.put("FLAC", audioRes);
 
-            TreeMap<String, BigDecimal> videoRes = video.calSingleType(inputVidNum);
+            MediaCalculator videoCalculator = new MediaCalculator();
+            TreeMap<String, BigDecimal> videoRes = videoCalculator.calSingleType(video, inputVidNum);
             res.put("VID", videoRes);
         } else {
             final Logger logger = Logger.getLogger("Logging single media...");

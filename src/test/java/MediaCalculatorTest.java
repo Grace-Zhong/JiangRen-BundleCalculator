@@ -3,7 +3,7 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.util.TreeMap;
 
-public class MediaTest {
+public class MediaCalculatorTest {
     private static final String imageCode = "IMG";
     private static final String audioCode = "FLAC";
     private static final String videoCode = "VID";
@@ -15,6 +15,7 @@ public class MediaTest {
         mediaTable.put(10, new BigDecimal(800));
 
         Media media = new Media(imageCode, mediaTable);
-        TreeMap<String, BigDecimal> res = media.calSingleType(50);
+        MediaCalculator singleCalculator = new MediaCalculator();
+        TreeMap<String, BigDecimal> res = singleCalculator.calSingleType(media,50);
     }
 }
