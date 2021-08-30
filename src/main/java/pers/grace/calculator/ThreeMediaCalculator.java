@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 @NoArgsConstructor
 @ToString
 @Accessors(chain = true, fluent = true)
-public class ThreeTypeCalculator {
+public class ThreeMediaCalculator {
 
     @Getter
     @Setter
@@ -31,7 +31,7 @@ public class ThreeTypeCalculator {
     @Setter
     private static HashMap<String, TreeMap<Integer, BigDecimal>> data = new HashMap<>();
 
-    public ThreeTypeCalculator(Media img, Media audio, Media video) {
+    public ThreeMediaCalculator(Media img, Media audio, Media video) {
         img(img).audio(audio).video(video);
         this.data.put(img.name(), img.table());
         this.data.put(audio.name(), audio.table());

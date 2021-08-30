@@ -2,13 +2,11 @@ package pers.grace.calculator;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pers.grace.calculator.Media;
-import pers.grace.calculator.ThreeTypeCalculator;
 
 import java.math.BigDecimal;
 import java.util.TreeMap;
 
-public class ThreeTypeCalculatorTest {
+public class ThreeMediaCalculatorTest {
         private static final String imageCode = "IMG";
         private static final String audioCode = "FLAC";
         private static final String videoCode = "VID";
@@ -33,7 +31,7 @@ public class ThreeTypeCalculatorTest {
 
         @Test
         public void testCalTotal() {
-            ThreeTypeCalculator calculator = new ThreeTypeCalculator(
+            ThreeMediaCalculator calculator = new ThreeMediaCalculator(
                     new Media(imageCode, imageTable),
                     new Media(audioCode, audioTable),
                     new Media(videoCode, videoTable)

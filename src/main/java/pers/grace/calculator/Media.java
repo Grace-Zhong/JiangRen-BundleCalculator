@@ -6,6 +6,11 @@ import lombok.experimental.Accessors;
 import java.math.BigDecimal;
 import java.util.TreeMap;
 
+/**
+ * A single media
+ * name - name code
+ * table - information table
+ */
 @Getter
 @Setter
 @NoArgsConstructor

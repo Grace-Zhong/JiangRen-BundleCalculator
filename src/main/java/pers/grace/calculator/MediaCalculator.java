@@ -6,8 +6,6 @@ import java.math.BigDecimal;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class MediaCalculator {
 
@@ -74,12 +72,6 @@ public class MediaCalculator {
         // initialization: the number of all key (beside the last key) is 0
         BigDecimal minCost = (new BigDecimal(Math.ceil((double) remain / currentTable.lastKey())))
                 .multiply(currentTable.lastEntry().getValue());
-
-//        currentTable.entrySet().stream().map(str->{
-//            res.put(String.valueOf(str.getKey()), new BigDecimal(0));
-//            return 0;
-//            }).collect(Collectors.counting());
-
         for (Map.Entry<Integer, BigDecimal> entry : currentTable.entrySet()) {
             res.put(String.valueOf(entry.getKey()), new BigDecimal(0));
         }
@@ -150,6 +142,7 @@ public class MediaCalculator {
     private static int smallestUnitBundle(TreeMap<Integer, BigDecimal> subTable) {
         int res = 0;
         BigDecimal minValue = subTable.firstEntry().getValue().divide(new BigDecimal(subTable.firstKey()));
+
         for (Map.Entry<Integer, BigDecimal> entry : subTable.entrySet()) {
             if ((entry.getValue().divide(new BigDecimal(entry.getKey()))).compareTo(minValue) == -1) {
                 minValue = entry.getValue();
@@ -173,6 +166,7 @@ public class MediaCalculator {
         final String total = "TOTAL";
         String output = "\n";
         output += inputNum + " " + name + " $" + totalCost.toString() + "\n";
+
         for (Map.Entry<String, BigDecimal> entry : res.entrySet()) {
             if (!entry.getKey().equals(total) && entry.getValue().compareTo(new BigDecimal(0)) != 0)
                 output += "  " + entry.getValue().toString() + " x " + entry.getKey() + " $"
