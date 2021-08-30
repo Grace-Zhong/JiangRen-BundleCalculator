@@ -1,5 +1,6 @@
 package pers.grace.calculator;
 
+import lombok.extern.slf4j.Slf4j;
 import pers.grace.calculator.Media;
 
 import java.math.BigDecimal;

@@ -1,9 +1,9 @@
 # User Instruction
 ### Input
- - The input should be put in input.txt file.
- - Only the first three lines in input.txt are recorded as input of Bundle Calculator.
- - Each line in input.txt should contain a positive integer and a media code, separated by a space.
- - The media code only can be one of "IMG", "FLAC", and "VID".
+ - The input should only contain three lines
+ - The first line contains the requested bundle number and "IMG", separated by a space.
+ - he second line contains the requested bundle number and "FLAC", separated by a space.
+ - The third line contains the requested bundle number and "VID", separated by a space.
 
 # Problem
 Social media Influencers have been basing the price of their social media post on a single post basis. So If a brand required 10 posts (for example spread over a period) then they would be charged 10x the cost of a single post. One company has decided to allow social media influencers to sell posts in bundles and charge the brand on a per bundle basis. So if the Influencer sold image based posts in bundles of 5 and 10 and brand ordered 15 they would get a bundle of 10 and a bundle of 5.

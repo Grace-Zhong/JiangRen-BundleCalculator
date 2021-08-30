@@ -25,13 +25,6 @@ public class ThreeMediaCalculator {
         this.data.put(video.name(), video.table());
     }
 
-    /***
-     * Calculate the cheapest solution of number of bundle.
-     * @param inputImgNum number of image that users need
-     * @param inputFlacNum number of audio that users need
-     * @param inputVidNum number of video that users need
-     * @return A table of the cheapest solutions for three types of media respectively
-     */
     public TreeMap<String, TreeMap<String, BigDecimal>> calTotal(int inputImgNum, int inputFlacNum, int inputVidNum) {
         TreeMap<String, TreeMap<String, BigDecimal>> res = new TreeMap<>();
 
