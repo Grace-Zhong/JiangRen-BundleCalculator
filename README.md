@@ -1,3 +1,10 @@
+# User Instruction
+### Input
+ - The input should be put in input.txt file.
+ - Only the first three lines in input.txt are recorded as input of Bundle Calculator.
+ - Each line in input.txt should contain a positive integer and a media code, separated by a space.
+ - The media code only can be one of "IMG", "FLAC", and "VID".
+
 # Problem
 Social media Influencers have been basing the price of their social media post on a single post basis. So If a brand required 10 posts (for example spread over a period) then they would be charged 10x the cost of a single post. One company has decided to allow social media influencers to sell posts in bundles and charge the brand on a per bundle basis. So if the Influencer sold image based posts in bundles of 5 and 10 and brand ordered 15 they would get a bundle of 10 and a bundle of 5.
 
@@ -35,7 +42,7 @@ A successfully passing test(s) that demonstrates the following output: (The form
 1 x 3 $570
 ```
 
-# Solution
+# General Thought
 1. I construct two objects - pers.grace.calculator.Media and pers.grace.calculator.ThreeMediaCalculator. <br>
 pers.grace.calculator.Media can represent each type of media, including the media name and a table which contains the bundle information. 
    `calSingleType()` returns the table of result and also log the result in console. <br>

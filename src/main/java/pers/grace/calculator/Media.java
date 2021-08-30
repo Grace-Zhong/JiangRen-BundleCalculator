@@ -11,11 +11,9 @@ import java.util.TreeMap;
  * name - name code
  * table - information table
  */
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Accessors(chain = true, fluent = true)
 public class Media {
 
