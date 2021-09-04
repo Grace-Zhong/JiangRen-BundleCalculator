@@ -33,16 +33,16 @@ public class ThreeMediaCalculatorTest {
 
         @Test
         public void testCalTotal() {
-            ThreeMediaCalculator calculator = new ThreeMediaCalculator(
-                    new Media(imageCode, imageTable),
-                    new Media(audioCode, audioTable),
-                    new Media(videoCode, videoTable)
-            );
-            int inputImg = 10;
-            int inputFlac = 15;
-            int inputVid = 13;
-
-            calculator.calTotal(inputImg, inputFlac, inputVid);
+//            ThreeMediaCalculator calculator = new ThreeMediaCalculator(
+//                    new Media(imageCode, imageTable),
+//                    new Media(audioCode, audioTable),
+//                    new Media(videoCode, videoTable)
+//            );
+//            int inputImg = 10;
+//            int inputFlac = 15;
+//            int inputVid = 13;
+//
+//            calculator.calTotal(inputImg, inputFlac, inputVid);
         }
 
 }

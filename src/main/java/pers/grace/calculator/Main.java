@@ -2,6 +2,7 @@ package pers.grace.calculator;
 
 import pers.grace.calculator.model.Media;
 import pers.grace.calculator.algorithm.ThreeMediaCalculator;
+import pers.grace.calculator.model.ThreeMedia;
 
 import java.math.BigDecimal;
 import java.util.TreeMap;
@@ -17,40 +18,17 @@ public class Main {
         int[] input = in.input();
 
         if (input != null) {
-            // read information table
-            ThreeMediaCalculator calculator = setInfoTable();
+            ThreeMedia threeMedia = new ThreeMedia();
 
             // calculate
-            TreeMap<String, TreeMap<String, BigDecimal>> res = calculator.calTotal(input[0], input[1], input[2]);
+            ThreeMediaCalculator threeMediaCalculator = new ThreeMediaCalculator();
+            TreeMap<String, TreeMap<String, BigDecimal>> res = threeMediaCalculator.calTotal(threeMedia, input[0],
+                    input[1], input[2]);
 
             // print result to file
             Output print = new Output();
-            print.outputToFile(input[0], input[1], input[2],calculator.data() ,res);
+            print.outputToFile(input[0], input[1], input[2],threeMedia.data() ,res);
         }
     }
 
-    public static ThreeMediaCalculator setInfoTable() {
-
-        TreeMap<Integer, BigDecimal> imageTable = new TreeMap<>();
-        TreeMap<Integer, BigDecimal> audioTable = new TreeMap<>();
-        TreeMap<Integer, BigDecimal> videoTable = new TreeMap<>();
-
-        imageTable.put(5, new BigDecimal("450"));
-        imageTable.put(10, new BigDecimal("800"));
-
-        audioTable.put(3, new BigDecimal("427.5"));
-        audioTable.put(6, new BigDecimal("810"));
-        audioTable.put(9, new BigDecimal("1147.5"));
-
-        videoTable.put(3, new BigDecimal("570"));
-        videoTable.put(5, new BigDecimal("900"));
-        videoTable.put(9, new BigDecimal("1530"));
-
-        ThreeMediaCalculator calculator = new ThreeMediaCalculator(
-                new Media(IMAGE_CODE, imageTable),
-                new Media(AUDIO_CODE, audioTable),
-                new Media(VIDEO_CODE, videoTable)
-        );
-        return calculator;
-    }
 }
