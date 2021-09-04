@@ -15,15 +15,15 @@ public class ThreeMediaCalculator {
 
         if (inputImgNum > 0 && inputFlacNum > 0 && inputVidNum > 0) {
             MediaCalculator imgCalculator = new MediaCalculator();
-            TreeMap<String, BigDecimal> imgRes = imgCalculator.calSingleType(threeMedia.img(), inputImgNum);
+            TreeMap<String, BigDecimal> imgRes = imgCalculator.calSingleMedia(threeMedia.img(), inputImgNum);
             res.put("IMG", imgRes);
 
             MediaCalculator audioCalculator = new MediaCalculator();
-            TreeMap<String, BigDecimal> audioRes = audioCalculator.calSingleType(threeMedia.audio(), inputFlacNum);
+            TreeMap<String, BigDecimal> audioRes = audioCalculator.calSingleMedia(threeMedia.audio(), inputFlacNum);
             res.put("FLAC", audioRes);
 
             MediaCalculator videoCalculator = new MediaCalculator();
-            TreeMap<String, BigDecimal> videoRes = videoCalculator.calSingleType(threeMedia.video(), inputVidNum);
+            TreeMap<String, BigDecimal> videoRes = videoCalculator.calSingleMedia(threeMedia.video(), inputVidNum);
             res.put("VID", videoRes);
         } else {
             final Logger logger = Logger.getLogger("Logging single media...");

@@ -16,7 +16,7 @@ public class MediaCalculator {
      * @param inputNum  the number of bundle users needed
      * @return the cheapest solution of a single type social media
      */
-    public TreeMap<String, BigDecimal> calSingleType(Media media, int inputNum) {
+    public TreeMap<String, BigDecimal> calSingleMedia(Media media, int inputNum) {
         final String total = "TOTAL";
         BigDecimal totalCost;
         TreeMap<String, BigDecimal> res = new TreeMap<>();
