@@ -1,7 +1,9 @@
-package pers.grace.calculator;
+package pers.grace.calculator.algorithm;
 
 import lombok.*;
 import lombok.experimental.Accessors;
+import pers.grace.calculator.algorithm.MediaCalculator;
+import pers.grace.calculator.model.Media;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -16,13 +18,13 @@ public class ThreeMediaCalculator {
     private Media img;
     private Media audio;
     private Media video;
-    private static HashMap<String, TreeMap<Integer, BigDecimal>> data = new HashMap<>();
+    private HashMap<String, TreeMap<Integer, BigDecimal>> data = new HashMap<>();
 
     public ThreeMediaCalculator(Media img, Media audio, Media video) {
         img(img).audio(audio).video(video);
-        this.data.put(img.name(), img.table());
-        this.data.put(audio.name(), audio.table());
-        this.data.put(video.name(), video.table());
+        data.put(img.name(), img.table());
+        data.put(audio.name(), audio.table());
+        data.put(video.name(), video.table());
     }
 
     public TreeMap<String, TreeMap<String, BigDecimal>> calTotal(int inputImgNum, int inputFlacNum, int inputVidNum) {

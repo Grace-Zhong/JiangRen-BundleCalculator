@@ -1,12 +1,13 @@
-package pers.grace.calculator;
+package pers.grace.calculator.algorithm;
 
 import lombok.extern.slf4j.Slf4j;
-import pers.grace.calculator.Media;
+import pers.grace.calculator.model.Media;
 
 import java.math.BigDecimal;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.logging.Logger;
+
 
 public class MediaCalculator {
 

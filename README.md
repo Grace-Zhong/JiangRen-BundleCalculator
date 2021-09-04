@@ -1,9 +1,13 @@
 # User Instruction
+This project finds the cheapest solution for the requested image, audio, and video bundle number respectively according 
+to an information table.
 ### Input
  - The input should only contain three lines
- - The first line contains the requested bundle number and "IMG", separated by a space.
- - he second line contains the requested bundle number and "FLAC", separated by a space.
- - The third line contains the requested bundle number and "VID", separated by a space.
+ - The first line contains the requested image bundle number and "IMG", separated by a space.
+ - he second line contains the requested audio bundle number and "FLAC", separated by a space.
+ - The third line contains the requested video bundle number and "VID", separated by a space.
+### Output
+ - The output will be recorded in output.txt.
 
 # Problem
 Social media Influencers have been basing the price of their social media post on a single post basis. So If a brand required 10 posts (for example spread over a period) then they would be charged 10x the cost of a single post. One company has decided to allow social media influencers to sell posts in bundles and charge the brand on a per bundle basis. So if the Influencer sold image based posts in bundles of 5 and 10 and brand ordered 15 they would get a bundle of 10 and a bundle of 5.
@@ -41,17 +45,3 @@ A successfully passing test(s) that demonstrates the following output: (The form
 2 x 5 $1800
 1 x 3 $570
 ```
-
-# General Thought
-1. I construct two objects - pers.grace.calculator.Media and pers.grace.calculator.ThreeMediaCalculator. <br>
-pers.grace.calculator.Media can represent each type of media, including the media name and a table which contains the bundle information. 
-   `calSingleType()` returns the table of result and also log the result in console. <br>
-pers.grace.calculator.ThreeMediaCalculator includes three types of media, a table of the bundle information of these media, and a table of result 
-   after calculation.`calTotal()` returns the result after calculation. `printRes()` uses log to print the result.
-2. For a single media, I divide the required input amount into three cases.`Method: calSingleType()` <br>
-   (1) If the input amount is smaller than the cheapest bundle. It simply returns a single bundle. <br>
-   (2) If the input amount is larger than the sum of all bundles, which means the larger part is repeated. I record the number it has repeated and cut them, then passed the remained part to (3). After it finds the cheapest solution by (3), I add the repeated bundles back.<br>
-   (3) For the rest cases, I use recursion to calculate the cheapest solution.`Method: calBasicCase()` I calculate all possible solutions
-and find the minimum cost solution. The base case is when the size of map is smaller than two. For the rest cases,
-I use a for loop listed all possible solutions, delete the first element, and the rest part to the next recursion.
-

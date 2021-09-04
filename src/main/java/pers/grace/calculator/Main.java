@@ -1,6 +1,7 @@
 package pers.grace.calculator;
 
-import lombok.extern.slf4j.Slf4j;
+import pers.grace.calculator.model.Media;
+import pers.grace.calculator.algorithm.ThreeMediaCalculator;
 
 import java.math.BigDecimal;
 import java.util.TreeMap;
@@ -20,7 +21,11 @@ public class Main {
             ThreeMediaCalculator calculator = setInfoTable();
 
             // calculate
-            calculator.calTotal(input[0], input[1], input[2]);
+            TreeMap<String, TreeMap<String, BigDecimal>> res = calculator.calTotal(input[0], input[1], input[2]);
+
+            // print result to file
+            Output print = new Output();
+            print.outputToFile(input[0], input[1], input[2],calculator.data() ,res);
         }
     }
 

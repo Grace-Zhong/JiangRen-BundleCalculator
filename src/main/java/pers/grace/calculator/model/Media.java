@@ -1,4 +1,4 @@
-package pers.grace.calculator;
+package pers.grace.calculator.model;
 
 import lombok.*;
 import lombok.experimental.Accessors;

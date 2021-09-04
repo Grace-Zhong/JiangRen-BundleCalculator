@@ -2,6 +2,8 @@ package pers.grace.calculator;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import pers.grace.calculator.model.Media;
+import pers.grace.calculator.algorithm.ThreeMediaCalculator;
 
 import java.math.BigDecimal;
 import java.util.TreeMap;
