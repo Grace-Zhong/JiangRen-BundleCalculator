@@ -10,11 +10,7 @@ import java.util.TreeMap;
 @Slf4j
 public class MediaCalculator {
 
-    /***
-     * Calculate the cheapest solution of a single media (all possible cases)
-     * @param inputNum  the number of bundle users needed
-     * @return the cheapest solution of a single type social media
-     */
+    // Calculate the cheapest solution of a single media (all possible cases)
     public TreeMap<String, BigDecimal> calSingleMedia(Media media, int inputNum) {
         final String total = "TOTAL";
         BigDecimal totalCost;
@@ -123,26 +119,8 @@ public class MediaCalculator {
                                 firstEntry : secondEntry
                 );
         return minEntry.getKey();
-
-
-//        Map.Entry<Integer, BigDecimal> minEntry = subTable.entrySet().stream()
-//                .reduce(subTable.firstEntry(), (firstEntry, secondEntry) ->
-//                        firstEntry.getValue().divide(new BigDecimal(firstEntry.getKey()))
-//                                .compareTo(secondEntry.getValue().divide(new BigDecimal(secondEntry.getKey()))) < 0 ?
-//                                firstEntry : secondEntry
-//                );
-//        return minEntry.getKey();
     }
 
-    /***
-     * Return the cheapest solution of this media by string
-     * @param inputNum the number of bundle users need for this media
-     * @param table  the data information of this media
-     * @param name  the name code of this media
-     * @param res  the cheapest solution of this media
-     * @param totalCost  the total cost of the cheapest solution
-     * @return the string should be print by logger
-     */
     private static String printResult(int inputNum, TreeMap<Integer, BigDecimal> table, String name,
                                       TreeMap<String, BigDecimal> res, BigDecimal totalCost) {
         final String total = "TOTAL";
