@@ -21,23 +21,20 @@ public class MediaCalculator {
         TreeMap<String, BigDecimal> res = new TreeMap<>();
 
         // if inputNum is smaller than the cheapest bundle
-        int cheapestBundle = smallestBundle(media.table());
+        int cheapestBundle = cheapestBundle(media.table());
         if (inputNum <= cheapestBundle) {
             res.put(String.valueOf(cheapestBundle), new BigDecimal(1));
             res.put(total, media.table().get(cheapestBundle));
             totalCost = media.table().get(cheapestBundle);
         } else {
-            // find threshold
-            int threshold = 0;              // threshold = sum of all keys
-            for (Integer key : media.table().keySet()) {
-                threshold = threshold + key;
-            }
+            // find threshold, threshold = sum of all keys
+            int threshold = media.table().keySet().stream().reduce(0, (sum, b) -> sum + b);
 
             // cut inputNum if it is large
             int cutBundleBase = 0;         // record the redundant number of bundle
             int cut = 0;
             if (inputNum > threshold) {
-                cutBundleBase = smallestUnitBundle(media.table());       // the bundle name should be cut
+                cutBundleBase = cheapestUnitBundle(media.table());       // the bundle name should be cut
                 cut = (int) Math.ceil((double) (inputNum - threshold) / cutBundleBase);    // the number of bundle should be cut
                 inputNum = inputNum - cutBundleBase * cut;
             }
@@ -53,7 +50,6 @@ public class MediaCalculator {
                 res.put(total, totalCost);
             }
         }
-
         String output = printResult(inputNum, media.table(), media.name(), res, totalCost);
         log.info(output);
         return res;
@@ -117,39 +113,21 @@ public class MediaCalculator {
         return res;
     }
 
-    /***
-     * Find the bundle with the lowest bundle price
-     * @param subTable
-     * @return the bundle number with the lowest bundle price
-     */
-    private static int smallestBundle(TreeMap<Integer, BigDecimal> subTable) {
-        int res = 0;
-        BigDecimal minValue = subTable.firstEntry().getValue();
-        for (Map.Entry<Integer, BigDecimal> entry : subTable.entrySet()) {
-            if (entry.getValue().compareTo(minValue) == -1) {
-                minValue = entry.getValue();
-                res = entry.getKey();
-            }
-        }
-        return res;
+    private static int cheapestBundle(TreeMap<Integer, BigDecimal> subTable) {
+        Map.Entry<Integer, BigDecimal> minEntry = subTable.entrySet().stream()
+                .reduce(subTable.firstEntry(), (firstEntry, secondEntry) ->
+                   firstEntry.getValue().compareTo(secondEntry.getValue()) == -1 ? firstEntry : secondEntry);
+        return minEntry.getKey();
     }
 
-    /***
-     * Find the bundle with the lowest unit price
-     * @param subTable
-     * @return the bundle number with the lowest unit price
-     */
-    private static int smallestUnitBundle(TreeMap<Integer, BigDecimal> subTable) {
-        int res = 0;
-        BigDecimal minValue = subTable.firstEntry().getValue().divide(new BigDecimal(subTable.firstKey()));
-
-        for (Map.Entry<Integer, BigDecimal> entry : subTable.entrySet()) {
-            if ((entry.getValue().divide(new BigDecimal(entry.getKey()))).compareTo(minValue) == -1) {
-                minValue = entry.getValue();
-                res = entry.getKey();
-            }
-        }
-        return res;
+    private static int cheapestUnitBundle(TreeMap<Integer, BigDecimal> subTable) {
+        Map.Entry<Integer, BigDecimal> minEntry = subTable.entrySet().stream()
+                .reduce(subTable.firstEntry(), (firstEntry, secondEntry) ->
+                        firstEntry.getValue().divide(new BigDecimal(firstEntry.getKey()))
+                                .compareTo(secondEntry.getValue().divide(new BigDecimal(secondEntry.getKey()))) == -1 ?
+                                firstEntry : secondEntry
+        );
+        return minEntry.getKey();
     }
 
     /***
