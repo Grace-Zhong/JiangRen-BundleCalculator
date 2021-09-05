@@ -2,7 +2,6 @@ package pers.grace.calculator.model;
 
 import lombok.*;
 import lombok.experimental.Accessors;
-import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
 import java.util.TreeMap;

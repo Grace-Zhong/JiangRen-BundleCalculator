@@ -28,7 +28,7 @@ public class MediaCalculator {
             totalCost = media.table().get(cheapestBundle);
         } else {
             // find threshold, threshold = sum of all keys
-            int threshold = media.table().keySet().stream().reduce(0, (sum, b) -> sum + b);
+            int threshold = media.table().keySet().stream().reduce(0, Integer::sum);
 
             // cut inputNum if it is large
             int cutBundleBase = 0;         // record the redundant number of bundle
@@ -55,12 +55,7 @@ public class MediaCalculator {
         return res;
     }
 
-    /***
-     * Calculate the cheapest solution of a single media (basic cases only, input is not small and not large)
-     * @param remain
-     * @param currentTable
-     * @return
-     */
+    // Calculate the cheapest solution of a single media (basic cases only, input is not small and not large)
     private static TreeMap<String, BigDecimal> calBasicCase(int remain, TreeMap<Integer, BigDecimal> currentTable) {
         final String total = "TOTAL";
         TreeMap<String, BigDecimal> res = new TreeMap<>();
@@ -84,7 +79,7 @@ public class MediaCalculator {
                         / currentTable.lastKey()));
                 BigDecimal currentSum = (new BigDecimal(i)).multiply(currentTable.firstEntry().getValue())
                         .add(numOfLastKey.multiply(currentTable.lastEntry().getValue()));
-                if (currentSum.compareTo(minCost) == -1) {
+                if (currentSum.compareTo(minCost) < 0) {
                     minCost = currentSum;
                     res.clear();
                     res.put(currentTable.firstKey().toString(), new BigDecimal(i));
@@ -102,7 +97,7 @@ public class MediaCalculator {
                 dynamicTable.remove(dynamicTable.firstKey());
                 TreeMap<String, BigDecimal> returnMap = calBasicCase(remain - currentTable.firstKey() * i, dynamicTable);
                 BigDecimal currentTotalCost = returnMap.get(returnMap.lastKey()).add(costOfFirstKey);
-                if (currentTotalCost.compareTo(minCost) == -1) {
+                if (currentTotalCost.compareTo(minCost) < 0) {
                     minCost = currentTotalCost;
                     res.putAll(returnMap);
                     res.put(String.valueOf(currentTable.firstKey()), new BigDecimal(i));
@@ -116,7 +111,7 @@ public class MediaCalculator {
     private static int cheapestBundle(TreeMap<Integer, BigDecimal> subTable) {
         Map.Entry<Integer, BigDecimal> minEntry = subTable.entrySet().stream()
                 .reduce(subTable.firstEntry(), (firstEntry, secondEntry) ->
-                   firstEntry.getValue().compareTo(secondEntry.getValue()) == -1 ? firstEntry : secondEntry);
+                        firstEntry.getValue().compareTo(secondEntry.getValue()) < 0 ? firstEntry : secondEntry);
         return minEntry.getKey();
     }
 
@@ -124,10 +119,19 @@ public class MediaCalculator {
         Map.Entry<Integer, BigDecimal> minEntry = subTable.entrySet().stream()
                 .reduce(subTable.firstEntry(), (firstEntry, secondEntry) ->
                         firstEntry.getValue().divide(new BigDecimal(firstEntry.getKey()))
-                                .compareTo(secondEntry.getValue().divide(new BigDecimal(secondEntry.getKey()))) == -1 ?
+                                .compareTo(secondEntry.getValue().divide(new BigDecimal(secondEntry.getKey()))) < 0 ?
                                 firstEntry : secondEntry
-        );
+                );
         return minEntry.getKey();
+
+
+//        Map.Entry<Integer, BigDecimal> minEntry = subTable.entrySet().stream()
+//                .reduce(subTable.firstEntry(), (firstEntry, secondEntry) ->
+//                        firstEntry.getValue().divide(new BigDecimal(firstEntry.getKey()))
+//                                .compareTo(secondEntry.getValue().divide(new BigDecimal(secondEntry.getKey()))) < 0 ?
+//                                firstEntry : secondEntry
+//                );
+//        return minEntry.getKey();
     }
 
     /***
@@ -142,15 +146,14 @@ public class MediaCalculator {
     private static String printResult(int inputNum, TreeMap<Integer, BigDecimal> table, String name,
                                       TreeMap<String, BigDecimal> res, BigDecimal totalCost) {
         final String total = "TOTAL";
-        String output = "\n";
-        output += inputNum + " " + name + " $" + totalCost.toString() + "\n";
+        StringBuilder output = new StringBuilder("\n");
+        output.append(inputNum).append(" ").append(name).append(" $").append(totalCost.toString()).append("\n");
 
         for (Map.Entry<String, BigDecimal> entry : res.entrySet()) {
             if (!entry.getKey().equals(total) && entry.getValue().compareTo(new BigDecimal(0)) != 0)
-                output += "  " + entry.getValue().toString() + " x " + entry.getKey() + " $"
-                        + table.get(Integer.valueOf(entry.getKey())).multiply(entry.getValue()) + "\n";
+                output.append("  ").append(entry.getValue()).append(" x ").append(entry.getKey()).append(" $").append(table.get(Integer.valueOf(entry.getKey())).multiply(entry.getValue())).append("\n");
         }
-        return output;
+        return output.toString();
     }
 
 }
