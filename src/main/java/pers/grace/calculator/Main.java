@@ -1,5 +1,6 @@
 package pers.grace.calculator;
 
+import lombok.extern.slf4j.Slf4j;
 import pers.grace.calculator.model.Media;
 import pers.grace.calculator.algorithm.ThreeMediaCalculator;
 import pers.grace.calculator.model.ThreeMedia;
@@ -7,6 +8,7 @@ import pers.grace.calculator.model.ThreeMedia;
 import java.math.BigDecimal;
 import java.util.TreeMap;
 
+@Slf4j
 public class Main {
     final static String IMAGE_CODE = "IMG";
     final static String AUDIO_CODE = "FLAC";
@@ -28,6 +30,9 @@ public class Main {
             // print result to file
             Output print = new Output();
             print.outputToFile(input[0], input[1], input[2],threeMedia.data() ,res);
+        }
+        else {
+            log.info("Empty input.");
         }
     }
 

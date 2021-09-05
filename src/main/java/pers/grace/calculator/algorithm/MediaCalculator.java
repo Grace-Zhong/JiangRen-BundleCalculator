@@ -6,9 +6,8 @@ import pers.grace.calculator.model.Media;
 import java.math.BigDecimal;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.logging.Logger;
 
-
+@Slf4j
 public class MediaCalculator {
 
     /***
@@ -20,7 +19,6 @@ public class MediaCalculator {
         final String total = "TOTAL";
         BigDecimal totalCost;
         TreeMap<String, BigDecimal> res = new TreeMap<>();
-        final Logger logger = Logger.getLogger("Logging single media...");
 
         // if inputNum is smaller than the cheapest bundle
         int cheapestBundle = smallestBundle(media.table());
@@ -57,7 +55,7 @@ public class MediaCalculator {
         }
 
         String output = printResult(inputNum, media.table(), media.name(), res, totalCost);
-        logger.info(output);
+        log.info(output);
         return res;
     }
 

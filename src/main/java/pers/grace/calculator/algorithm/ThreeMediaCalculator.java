@@ -1,11 +1,12 @@
 package pers.grace.calculator.algorithm;
 
+import lombok.extern.slf4j.Slf4j;
 import pers.grace.calculator.model.ThreeMedia;
 
 import java.math.BigDecimal;
 import java.util.TreeMap;
-import java.util.logging.Logger;
 
+@Slf4j
 public class ThreeMediaCalculator {
 
     public TreeMap<String, TreeMap<String, BigDecimal>> calTotal(ThreeMedia threeMedia, int inputImgNum,
@@ -26,8 +27,7 @@ public class ThreeMediaCalculator {
             TreeMap<String, BigDecimal> videoRes = videoCalculator.calSingleMedia(threeMedia.video(), inputVidNum);
             res.put("VID", videoRes);
         } else {
-            final Logger logger = Logger.getLogger("Logging single media...");
-            logger.info("Input should be positive integer!");
+            log.info("Input should be positive integer!");
         }
 
         return res;

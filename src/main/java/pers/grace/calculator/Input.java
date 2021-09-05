@@ -1,8 +1,11 @@
 package pers.grace.calculator;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
+@Slf4j
 public class Input {
     final static String IMAGE_CODE = "IMG";
     final static String AUDIO_CODE = "FLAC";
@@ -22,7 +25,7 @@ public class Input {
         inputList.add(inputVid);
 
         if (!checkInput(inputList)) {
-            System.out.println("Invalid Input.");
+            log.info("Invalid input.");
             return null;
         }
 

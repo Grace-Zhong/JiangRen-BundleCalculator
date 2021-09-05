@@ -2,10 +2,6 @@
 <Configuration>
     <Properties>
         <!-- 定义日志输出格式 -->
-        <!--
-        %d{MM-dd HH:mm:ss.SSS} 日期 时间
-        %n 回车
-        -->
         <Property name="log.pattern">%d{MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36}%n%msg%n%n</Property>
         <!-- 定义文件名变量 -->
         <Property name="file.err.filename">log/err.log</Property>
