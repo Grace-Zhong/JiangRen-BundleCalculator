@@ -3,9 +3,9 @@ This project finds the cheapest solution for the requested image, audio, and vid
 to an information table.
 ### Input
  - The input should only contain three lines
- - The first line contains the requested image bundle number and "IMG", separated by a space.
- - he second line contains the requested audio bundle number and "FLAC", separated by a space.
- - The third line contains the requested video bundle number and "VID", separated by a space.
+ - The first line contains the requested image bundle number and "IMG" separated by a space.
+ - The second line contains the requested audio bundle number and "FLAC" separated by a space.
+ - The third line contains the requested video bundle number and "VID" separated by a space.
 ### Output
  - The output will be recorded in output.txt.
 

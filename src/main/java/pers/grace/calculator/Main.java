@@ -1,39 +1,40 @@
 package pers.grace.calculator;
 
-import lombok.extern.slf4j.Slf4j;
-import pers.grace.calculator.model.Media;
-import pers.grace.calculator.algorithm.ThreeMediaCalculator;
-import pers.grace.calculator.model.ThreeMedia;
+import pers.grace.calculator.algorithm.Calculator;
+import pers.grace.calculator.algorithm.PriceCalculator;
+import pers.grace.calculator.utils.Constants;
 
 import java.math.BigDecimal;
-import java.util.TreeMap;
+import java.util.*;
 
-@Slf4j
 public class Main {
-    final static String IMAGE_CODE = "IMG";
-    final static String AUDIO_CODE = "FLAC";
-    final static String VIDEO_CODE = "VID";
-
     public static void main(String[] args) {
-        // read input
-        Input in = new Input();
-        int[] input = in.input();
+        // read order
+        OrderReader test = new OrderReader();
+        IdentityHashMap<Integer, String> order = test.readOrder();
 
-        if (input != null) {
-            ThreeMedia threeMedia = new ThreeMedia();
+        // process order
+        for (Map.Entry<Integer, String> entry : order.entrySet()) {
+            // get mediaCode and corresponding infoTable
+            String mediaCode = entry.getValue();
+            Set<Integer> bundleSet = Constants.infoTable.get(mediaCode).keySet();
 
-            // calculate
-            ThreeMediaCalculator threeMediaCalculator = new ThreeMediaCalculator();
-            TreeMap<String, TreeMap<String, BigDecimal>> res = threeMediaCalculator.calTotal(threeMedia, input[0],
-                    input[1], input[2]);
+            // calculate bundle
+            Calculator bundleCalculator = new Calculator();
+            HashMap<Integer, Integer> bundleRes = bundleCalculator.calculate(entry.getKey(), bundleSet);
+            System.out.println(bundleRes.toString());
 
-            // print result to file
-            Output print = new Output();
-            print.outputToFile(input[0], input[1], input[2],threeMedia.data() ,res);
+            // calculate price
+            PriceCalculator priceCalculator = new PriceCalculator();
+            HashMap<Integer, BigDecimal> priceRes = priceCalculator.calculate(bundleRes, mediaCode);
+            // total price is the sum of priceRes.valueSet()
+            BigDecimal totalPrice = priceRes.values().stream()
+                    .reduce(new BigDecimal("0"), (first, second) -> first.add(second));
+
+            // print
+            OrderPrinter printer = new OrderPrinter();
+            printer.print(mediaCode, bundleRes, priceRes, totalPrice);
         }
-        else {
-            log.info("Empty input.");
-        }
+
     }
-
 }
