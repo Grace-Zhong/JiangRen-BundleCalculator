@@ -16,10 +16,6 @@ public class Main {
         // process order
         OrderProcessor processor = new OrderProcessor();
         processor.process(order);
-        log.info(processor.mediaCodeList.toString());
-        log.info(processor.bundleResList.toString());
-        log.info(processor.priceResList.toString());
-        log.info(processor.totalPriceList.toString());
 
         // print order result
         OrderPrinter printer = new OrderPrinter();

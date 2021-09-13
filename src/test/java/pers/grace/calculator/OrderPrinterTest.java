@@ -11,6 +11,10 @@ public class OrderPrinterTest {
 
     @Test
     void printTest() {
+        ArrayList<String> input = new ArrayList<>();
+        input.add("10 " + Constants.IMAGE_CODE);
+        OrderReader orderReader = new OrderReader();
+        HashMap<Integer, String> order = orderReader.check(input);
         ArrayList<String> mediaCodeList = new ArrayList<>();
         ArrayList<HashMap<Integer, Integer>> bundleResList = new ArrayList<>();
         ArrayList<HashMap<Integer, BigDecimal>> priceResList = new ArrayList<>();
@@ -26,5 +30,8 @@ public class OrderPrinterTest {
         price.put(10, new BigDecimal("800"));
         priceResList.add(price);
         totalPriceList.add(new BigDecimal("800"));
+
+        OrderPrinter orderPrinter = new OrderPrinter();
+        orderPrinter.print(order, mediaCodeList, bundleResList, priceResList, totalPriceList);
     }
 }

@@ -52,6 +52,32 @@ public class CalculatorTest {
     }
 
     @Test
+    void calculateVideoTest2() {
+        Calculator calculator = new Calculator();
+        String mediaCode = Constants.VIDEO_CODE;
+        HashMap<Integer, Integer> actual = calculator.calculate(3, Constants.infoTable.get(mediaCode).keySet());
+        HashMap<Integer, Integer> expected = new HashMap<>();
+        expected.put(3, 1);
+        Assertions.assertArrayEquals(
+                expected.toString().getBytes(StandardCharsets.UTF_8),
+                actual.toString().getBytes(StandardCharsets.UTF_8));
+    }
+
+    @Test
+    void calculateVideoTest3() {
+        Calculator calculator = new Calculator();
+        String mediaCode = Constants.VIDEO_CODE;
+        HashMap<Integer, Integer> actual = calculator.calculate(4, Constants.infoTable.get(mediaCode).keySet());
+        HashMap<Integer, Integer> expected = new HashMap<>();
+        expected.put(3, 0);
+        expected.put(5, 1);
+        expected.put(9, 0);
+        Assertions.assertArrayEquals(
+                expected.toString().getBytes(StandardCharsets.UTF_8),
+                actual.toString().getBytes(StandardCharsets.UTF_8));
+    }
+
+    @Test
     void calculateSmallOrderTest() {
         Calculator calculator = new Calculator();
         String mediaCode = Constants.IMAGE_CODE;

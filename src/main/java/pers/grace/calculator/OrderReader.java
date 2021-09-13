@@ -24,6 +24,7 @@ public class OrderReader {
             }
         } catch (Exception e) {
             log.info("Reading input error");
+            throw e;
         }
 
         return check(inputList);

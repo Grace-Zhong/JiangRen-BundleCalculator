@@ -28,6 +28,7 @@ public class OrderPrinter {
                     recordInFile.write(item.getBytes(StandardCharsets.UTF_8));
                 }
             }
+            recordInFile.close();
         }
         catch (Exception e) {
             e.printStackTrace();
