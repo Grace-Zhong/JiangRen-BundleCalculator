@@ -1,46 +1,43 @@
 package pers.grace.calculator;
 
 import java.util.ArrayList;
-import java.util.IdentityHashMap;
+import java.util.HashMap;
 import java.util.Scanner;
+
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import pers.grace.calculator.utils.Constants;
 
+@Slf4j
 public class OrderReader {
 
-    public IdentityHashMap<Integer, String> readOrder() {
+    public HashMap<Integer, String> read() {
         ArrayList<String> inputList = new ArrayList<>();
 
         System.out.println("Please type your order here...");
         System.out.println("Each item contains an positive integer and a media code separated by a space.");
-        Scanner scanner = new Scanner(System.in);
-        try{
+        try (Scanner scanner = new Scanner(System.in)) {
             String nextLine = scanner.nextLine();
             while (nextLine != null && !nextLine.equals("")) {
                 inputList.add(nextLine);
                 nextLine = scanner.nextLine();
             }
-        }
-        catch (Exception e) {
-            System.out.println("Reading input error");
-        }
-        finally {
-            scanner.close();
+        } catch (Exception e) {
+            log.info("Reading input error");
         }
 
-        IdentityHashMap<Integer, String> input = checkOrder(inputList);
-        return input;
+        return check(inputList);
     }
 
-    private IdentityHashMap<Integer, String> checkOrder(ArrayList<String> input) {
-        IdentityHashMap<Integer, String> inputTable = new IdentityHashMap<>();
+    public HashMap<Integer, String> check(ArrayList<String> input) {
+        HashMap<Integer, String> inputTable = new HashMap<>();
         for (int i = 0; i < input.size(); i++) {
             String [] arr = input.get(i).split("\\s+");
             if (arr.length == 2 && StringUtils.isNumeric(arr[0]) && Constants.infoTable.containsKey(arr[1])) {
                 inputTable.put(Integer.valueOf(arr[0]), arr[1]);
             }
             else{
-                System.out.println("Line " + i + " input Error");
+                log.info("Line " + i + " input Error");
             }
         }
         return inputTable;

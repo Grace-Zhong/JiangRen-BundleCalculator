@@ -10,7 +10,7 @@ public class Constants {
     public static final String AUDIO_CODE = "FLAC";
     public static final String VIDEO_CODE = "VID";
 
-    public static Map<String, Map<Integer, BigDecimal>> infoTable = new ImmutableMap.Builder<String, Map<Integer,
+    public static final Map<String, Map<Integer, BigDecimal>> infoTable = new ImmutableMap.Builder<String, Map<Integer,
             BigDecimal>>()
             .put(IMAGE_CODE, new ImmutableMap.Builder<Integer, BigDecimal>()
                     .put(5, new BigDecimal("450"))

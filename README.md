@@ -2,10 +2,9 @@
 This project finds the cheapest solution for the requested image, audio, and video bundle number respectively according 
 to an information table.
 ### Input
- - The input should only contain three lines
- - The first line contains the requested image bundle number and "IMG" separated by a space.
- - The second line contains the requested audio bundle number and "FLAC" separated by a space.
- - The third line contains the requested video bundle number and "VID" separated by a space.
+ - Each order will be read by OrderReader, including multiple items in each line of the order.
+ - Each item contains a bundle number and media code, separated by a space.
+ - The media code should be one of "IMG", "FLAC", "VID".
 ### Output
  - The output will be recorded in output.txt.
 

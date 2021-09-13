@@ -1,40 +1,29 @@
 package pers.grace.calculator;
 
-import pers.grace.calculator.algorithm.Calculator;
-import pers.grace.calculator.algorithm.PriceCalculator;
-import pers.grace.calculator.utils.Constants;
+import lombok.extern.slf4j.Slf4j;
+import pers.grace.calculator.model.OrderProcessor;
 
-import java.math.BigDecimal;
 import java.util.*;
 
+@Slf4j
 public class Main {
     public static void main(String[] args) {
         // read order
         OrderReader test = new OrderReader();
-        IdentityHashMap<Integer, String> order = test.readOrder();
+        HashMap<Integer, String> order = test.read();
+        log.info(order.toString());
 
         // process order
-        for (Map.Entry<Integer, String> entry : order.entrySet()) {
-            // get mediaCode and corresponding infoTable
-            String mediaCode = entry.getValue();
-            Set<Integer> bundleSet = Constants.infoTable.get(mediaCode).keySet();
+        OrderProcessor processor = new OrderProcessor();
+        processor.process(order);
+        log.info(processor.mediaCodeList.toString());
+        log.info(processor.bundleResList.toString());
+        log.info(processor.priceResList.toString());
+        log.info(processor.totalPriceList.toString());
 
-            // calculate bundle
-            Calculator bundleCalculator = new Calculator();
-            HashMap<Integer, Integer> bundleRes = bundleCalculator.calculate(entry.getKey(), bundleSet);
-            System.out.println(bundleRes.toString());
-
-            // calculate price
-            PriceCalculator priceCalculator = new PriceCalculator();
-            HashMap<Integer, BigDecimal> priceRes = priceCalculator.calculate(bundleRes, mediaCode);
-            // total price is the sum of priceRes.valueSet()
-            BigDecimal totalPrice = priceRes.values().stream()
-                    .reduce(new BigDecimal("0"), (first, second) -> first.add(second));
-
-            // print
-            OrderPrinter printer = new OrderPrinter();
-            printer.print(mediaCode, bundleRes, priceRes, totalPrice);
-        }
-
+        // print order result
+        OrderPrinter printer = new OrderPrinter();
+        printer.print(order, processor.mediaCodeList, processor.bundleResList,
+                processor.priceResList, processor.totalPriceList);
     }
 }
