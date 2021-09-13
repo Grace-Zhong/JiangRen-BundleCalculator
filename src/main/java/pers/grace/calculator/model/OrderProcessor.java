@@ -18,16 +18,16 @@ public class OrderProcessor {
     public final ArrayList<HashMap<Integer, BigDecimal>> priceResList = new ArrayList<>();
     public final ArrayList<BigDecimal> totalPriceList = new ArrayList<>();
 
-    public void process(HashMap<Integer, String> order) {
-        for (Map.Entry<Integer, String> entry : order.entrySet()) {
+    public void process(Order order) {
+        for (Item item : order.orderList) {
             // get mediaCode and corresponding infoTable
-            String mediaCode = entry.getValue();
+            String mediaCode = item.mediaCode;
             mediaCodeList.add(mediaCode);
             Set<Integer> bundleSet = Constants.infoTable.get(mediaCode).keySet();
 
             // calculate bundle
             Calculator bundleCalculator = new Calculator();
-            HashMap<Integer, Integer> bundleRes = bundleCalculator.calculate(entry.getKey(), bundleSet);
+            HashMap<Integer, Integer> bundleRes = bundleCalculator.calculate(item.bundleNum, bundleSet);
             bundleResList.add(bundleRes);
 //            log.info(bundleRes.toString());
 

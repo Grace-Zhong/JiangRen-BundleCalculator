@@ -1,6 +1,7 @@
 package pers.grace.calculator;
 
 import lombok.extern.slf4j.Slf4j;
+import pers.grace.calculator.model.Order;
 import pers.grace.calculator.model.OrderProcessor;
 
 import java.util.*;
@@ -9,8 +10,8 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
         // read order
-        OrderReader test = new OrderReader();
-        HashMap<Integer, String> order = test.read();
+        OrderReader reader = new OrderReader();
+        Order order = reader.read();
         log.info(order.toString());
 
         // process order

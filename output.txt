@@ -1,3 +1,11 @@
-10 IMG $800
+Item(bundleNum=10, mediaCode=IMG) IMG $800
   5 x 0 0
   10 x 1 800
+Item(bundleNum=15, mediaCode=FLAC) FLAC $1957.5
+  3 x 0 0.0
+  6 x 1 810
+  9 x 1 1147.5
+Item(bundleNum=13, mediaCode=VID) VID $2370
+  3 x 1 570
+  5 x 2 1800
+  9 x 0 0
